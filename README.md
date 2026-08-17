@@ -1,44 +1,198 @@
 🩺 ASHA Companion
-Electronic Health Record and Field Coordination Platform for ASHA Workers
+Digital Healthcare Management Platform for ASHA Workers
 
-ASHA Companion is a healthcare management platform designed to support ASHA (Accredited Social Health Activist) workers, PHC Supervisors, Pharmacists, and Administrators in managing community healthcare activities.
+ASHA Companion is a digital healthcare platform designed to support ASHA Workers, PHC Supervisors, Pharmacists, and Administrators in managing community healthcare activities.
 
-The project combines a React + TypeScript frontend with a Spring Boot microservices backend, Oracle Database, role-based access control, healthcare record management, pharmacy inventory management, offline data synchronization, and AI-assisted healthcare analytics.
+The system provides healthcare record management, maternal and child health monitoring, pharmacy inventory management, offline data synchronization, role-based access control, and AI-assisted healthcare analytics.
 
-📌 Problem Statement
+🎯 Project Overview
 
-ASHA workers often perform healthcare activities in environments where network connectivity may be limited or unreliable. Managing patient information, maternal health records, immunization schedules, nutrition data, field visits, and medicine-related information manually can make follow-up and coordination difficult.
+ASHA workers often work in areas with limited or unreliable internet connectivity. Managing patient records, household information, maternal health data, immunization records, nutrition information, and medicine-related activities can become difficult when relying on manual processes.
 
-ASHA Companion provides a centralized digital platform that supports:
+ASHA Companion provides a centralized platform that helps digitize these activities and improves coordination between ASHA workers, PHC supervisors, pharmacists, and administrators.
 
-Patient and household management
-Maternal healthcare tracking
-Immunization management
-Child nutrition and growth monitoring
-Field visit recording
-Priority visit delegation
-Pharmacy inventory management
-Offline data collection and synchronization
-Healthcare analytics and decision support
-Role-based access control
-🎯 Objectives
+✨ Key Features
+🏠 Household Management
+👤 Patient Management
+👩‍⚕️ ASHA Worker Management
+🤰 Maternal Health Monitoring
+💉 Immunization Tracking
+🥗 Child Nutrition & Growth Monitoring
+📝 Healthcare Visit Management
+🔄 Offline Data Synchronization
+💊 Medicine & Pharmacy Management
+📦 Medicine Batch & Stock Management
+⚠️ Healthcare and Inventory Alerts
+📊 Reports & Analytics
+🤖 AI-assisted Healthcare Analytics
+🔐 JWT Authentication & Role-Based Access Control
+🏥 PHC Management
+📋 Audit and Administrative Management
+👥 User Roles
+👩‍⚕️ ASHA Worker
 
-The main objectives of ASHA Companion are to:
+ASHA workers manage community-level healthcare activities.
 
-Digitize community healthcare workflows
-Maintain electronic patient records
-Support ASHA workers during field visits
-Enable data collection during network interruptions
-Synchronize offline records when connectivity is restored
-Improve maternal and child health monitoring
-Track immunization and nutrition information
-Improve coordination between ASHA workers and PHC supervisors
-Manage medicines and pharmacy inventory
-Provide healthcare analytics and forecasting
-Enforce secure, role-based access to healthcare information
+Responsibilities include:
+
+Managing households
+Registering patients
+Recording healthcare visits
+Maintaining maternal health records
+Recording immunizations
+Recording child nutrition data
+Working with offline records
+Synchronizing collected data
+🏥 PHC Supervisor
+
+PHC Supervisors monitor and coordinate healthcare activities within their assigned PHC.
+
+Responsibilities include:
+
+Monitoring patients
+Managing ASHA workers
+Managing pharmacists
+Assigning priority visits
+Monitoring alerts
+Viewing analytics
+Generating reports
+💊 Pharmacist
+
+Pharmacists manage medicines and pharmacy inventory.
+
+Responsibilities include:
+
+Managing medicines
+Managing medicine batches
+Recording stock transactions
+Monitoring inventory
+Managing medicine requests
+Monitoring expiry alerts
+Viewing demand forecasts
+Generating pharmacy reports
+🛡️ Administrator
+
+Administrators manage the overall platform.
+
+Responsibilities include:
+
+User management
+PHC management
+Role and permission management
+System reports
+Audit logs
+System settings
+🏥 Healthcare Modules
+🏠 Household Management
+
+Maintains household information and associates patients with their respective households.
+
+👤 Patient Management
+
+Maintains patient information and healthcare-related records.
+
+🤰 Maternal Health
+
+Supports maternal healthcare workflows including:
+
+Pregnancy records
+Antenatal information
+Antenatal visits
+Maternal health monitoring
+💉 Immunization
+
+Supports:
+
+Immunization records
+Vaccination schedules
+Vaccination status
+Follow-up identification
+🥗 Nutrition & Child Growth
+
+Records child growth information such as:
+
+Weight
+Height
+MUAC
+Age
+📝 Health Visits
+
+Allows ASHA workers to record field visits and maintain healthcare visit history.
+
+PHC Supervisors can also assign priority visits to ASHA workers.
+
+💊 Pharmacy Management
+
+The pharmacy module provides:
+
+Medicine management
+Medicine batch management
+Stock management
+Stock transactions
+Medicine requests
+Inventory monitoring
+Expiry alerts
+Demand forecasting
+Pharmacy reports
+📴 Offline Data Synchronization
+
+ASHA workers may need to collect healthcare information in areas with limited network connectivity.
+
+The application provides an offline workflow where data can be stored locally and synchronized when connectivity becomes available.
+
+ASHA Worker
+     │
+     ▼
+Healthcare Data Entry
+     │
+     ▼
+Offline Storage
+     │
+     ▼
+Pending Records
+     │
+     ▼
+Internet Available
+     │
+     ▼
+Synchronization
+     │
+     ▼
+Backend APIs
+     │
+     ▼
+Oracle Database
+🤖 AI & Analytics
+
+The project includes an AI/analytics service to provide healthcare decision support.
+
+The system includes functionality related to:
+
+Maternal health risk analysis
+Immunization alerts
+Nutrition monitoring
+Medicine demand forecasting
+Medicine expiry monitoring
+
+AI-based features are intended for decision support and should not replace professional medical judgment.
+
+🔐 Security
+
+The application implements secure authentication and authorization using:
+
+Spring Security
+JWT Authentication
+BCrypt Password Hashing
+Role-Based Access Control (RBAC)
+Stateless Authentication
+Supported Roles
+ADMIN
+PHC_SUPERVISOR
+ASHA
+PHARMACIST
 🏗️ System Architecture
 
-The project follows a microservices-based architecture.
+ASHA Companion follows a microservices architecture.
 
                          ┌──────────────────────────┐
                          │     React Frontend       │
@@ -50,314 +204,41 @@ The project follows a microservices-based architecture.
                          ┌──────────────────────────┐
                          │      API Gateway         │
                          │ Spring Cloud Gateway     │
-                         │        :8081             │
                          └────────────┬─────────────┘
                                       │
-                    ┌─────────────────┼─────────────────┐
-                    │                 │                 │
-                    ▼                 ▼                 ▼
-             ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-             │    Auth     │  │  Clinical   │  │  Pharmacy   │
-             │   Service   │  │   Service   │  │   Service   │
-             └──────┬──────┘  └──────┬──────┘  └──────┬──────┘
-                    │                │                │
-                    └────────────────┼────────────────┘
-                                     │
-                                     ▼
+              ┌───────────────────────┼───────────────────────┐
+              │                       │                       │
+              ▼                       ▼                       ▼
+       ┌─────────────┐        ┌─────────────┐        ┌─────────────┐
+       │    Auth     │        │  Clinical   │        │  Pharmacy   │
+       │   Service   │        │   Service   │        │   Service   │
+       └─────────────┘        └─────────────┘        └─────────────┘
+              │                       │                       │
+              └───────────────────────┼───────────────────────┘
+                                      │
+                                      ▼
                            ┌──────────────────┐
                            │ Oracle Database  │
-                           │      :1521       │
                            └──────────────────┘
 
 
                            ┌──────────────────┐
                            │ Eureka Discovery │
-                           │      :8761       │
                            └──────────────────┘
 
 
-             ┌────────────────────────────────────────────┐
-             │              Supporting Services           │
-🧩 System Components
-Frontend
-
-The frontend provides role-specific dashboards and workflows for the different users of the system.
-
-Frontend Roles
-ASHA Worker
-PHC Supervisor
-Pharmacist
-Administrator
-ASHA Worker Modules
-Dashboard
-Household Management
-Patient Management
-Health Visits
-Maternal Health
-Immunization
-Nutrition
-Medicine Information
-Offline Synchronization
-Profile
-PHC Supervisor Modules
-Dashboard
-Patient Monitoring
-ASHA Management
-Pharmacist Management
-Priority Visits
-Alerts
-Analytics
-Reports
-Pharmacist Modules
-Dashboard
-Medicine Management
-Medicine Batches
-Stock Transactions
-Medicine Requests
-Alerts
-Forecasting
-Reports
-Administrator Modules
-Dashboard
-System Users
-User Management
-PHC Management
-Role & Permission Management
-Reports
-Audit Logs
-System Settings
-⚙️ Backend Microservices
-
-The backend is organized into multiple Spring Boot services.
-
-Service	Responsibility
+                    ┌──────────────────────────┐
+                    │ Admin Service / AI Service│
+                    └──────────────────────────┘
+⚙️ Backend Services
+Service	Purpose
 discovery-server	Service discovery using Eureka
-api-gateway	Central API entry point and request routing
-auth-service	Authentication, users and security
-clinical-service	Clinical and patient-related operations
+api-gateway	Central API gateway and request routing
+auth-service	Authentication and security
+clinical-service	Patient and clinical operations
 pharmacy-service	Medicine and inventory operations
 admin-service	Administrative operations
 ai-service	Healthcare analytics and prediction
-👥 User Roles
-ADMIN
-
-Provides system-wide administrative capabilities.
-
-Manage PHCs
-Manage system users
-Manage roles and permissions
-View system-wide reports
-Access audit information
-PHC SUPERVISOR
-
-Works within an assigned Primary Health Centre.
-
-Monitor patients
-Manage ASHA workers
-Manage pharmacists
-Delegate priority visits
-Monitor healthcare activities
-View PHC-level reports and analytics
-ASHA WORKER
-
-Responsible for community-level healthcare activities.
-
-Manage households
-Register patients
-Record health visits
-Manage maternal health information
-Record immunizations
-Record child nutrition and growth information
-Work with offline records
-Synchronize collected data
-PHARMACIST
-
-Responsible for PHC medicine inventory.
-
-Manage medicines
-Manage medicine batches
-Record stock transactions
-Monitor stock
-Monitor expiry alerts
-Handle medicine requests
-View medicine reports
-Generate demand forecasts
-🔐 Security
-
-The backend uses role-based security to restrict access to protected operations.
-
-Security technologies include:
-
-Spring Security
-JWT Authentication
-BCrypt Password Encoding
-Stateless Authentication
-Role-Based Access Control (RBAC)
-
-Supported roles include:
-
-ADMIN
-PHC_SUPERVISOR
-ASHA
-PHARMACIST
-
-Unauthorized requests are rejected by the backend rather than relying only on frontend restrictions.
-
-🏥 Healthcare Modules
-Household Management
-
-Household information can be maintained and associated with patients.
-
-Patient Management
-
-The patient module manages electronic health information such as:
-
-Patient details
-Date of birth
-Gender
-Contact information
-Address
-PHC association
-Healthcare-related records
-Maternal Health
-
-The application supports:
-
-Pregnancy records
-Antenatal information
-Antenatal visits
-Maternal health monitoring
-Immunization
-
-The immunization module allows healthcare workers to:
-
-Record immunizations
-Track vaccination schedules
-Monitor vaccination status
-Identify records requiring follow-up
-Nutrition & Child Growth
-
-The nutrition module records child growth information such as:
-
-Weight
-Height
-MUAC
-Age
-
-These records can be used for nutrition-related monitoring and alerts.
-
-Health Visits
-
-ASHA workers can record field visits and maintain visit information.
-
-Supervisors can also delegate priority visits to ASHA workers.
-
-💊 Pharmacy & Inventory
-
-The pharmacy module manages medicine-related operations including:
-
-Medicine catalogue
-Medicine batches
-Stock transactions
-Inventory levels
-Medicine requests
-Expiry alerts
-Demand forecasting
-Pharmacy reports
-📴 Offline Data Synchronization
-
-The frontend contains an offline workflow designed for ASHA field activities.
-
-When offline mode is enabled, relevant records can be stored locally and marked as pending.
-
-              ASHA Worker
-                   │
-                   ▼
-          Enter Healthcare Data
-                   │
-                   ▼
-             Offline Mode
-                   │
-                   ▼
-             Local Storage
-                   │
-                   ▼
-             Pending Queue
-                   │
-             Internet Returns
-                   │
-                   ▼
-               Sync Now
-                   │
-                   ▼
-             Backend APIs
-                   │
-                   ▼
-          Oracle Database
-
-The synchronization workflow processes related records in dependency order, including:
-
-Patients
-   ↓
-Pregnancies
-   ↓
-Antenatal Visits
-   ↓
-Immunizations
-   ↓
-Nutrition Records
-🤖 AI & Analytics
-
-The project includes an AI/analytics layer for healthcare decision support.
-
-Current areas include:
-
-Maternal Health Risk
-
-Healthcare risk evaluation based on recorded patient information.
-
-Immunization Alerts
-
-Identification of vaccination records requiring attention.
-
-Nutrition Alerts
-
-Nutrition-related classification and monitoring based on child growth information.
-
-Medicine Demand Forecasting
-
-Forecasting future medicine requirements using historical transaction information.
-
-Medicine Expiry Risk
-
-Identification of medicines requiring attention because of approaching expiry.
-
-These features are intended as decision-support functionality and are not a replacement for professional medical diagnosis or treatment.
-
-🗄️ Database
-
-The backend uses Oracle Database as its relational database.
-
-Major data domains include:
-
-Users
- │
- ├── PHCs
- │
- ├── Patients
- │      ├── Pregnancies
- │      │       └── Antenatal Visits
- │      │
- │      ├── Immunization Records
- │      │
- │      └── Nutrition Records
- │
- ├── Priority Visits
- │
- └── Pharmacy
-        ├── Medicines
-        ├── Medicine Batches
-        └── Medicine Transactions
 🛠️ Technology Stack
 Frontend
 React
@@ -381,14 +262,13 @@ JWT
 BCrypt
 Spring Cloud Gateway
 Netflix Eureka
-Springdoc OpenAPI / Swagger
+Springdoc OpenAPI
 Database
 Oracle Database
 Oracle JDBC
 Hibernate ORM
-Development & Testing
-Git
-GitHub
+Tools
+Git & GitHub
 VS Code
 Maven
 npm
@@ -404,116 +284,42 @@ ASHA-Companion/
 │   ├── auth-service/
 │   ├── clinical-service/
 │   ├── discovery-server/
-│   ├── pharmacy-service/
-│   │
-│   ├── ASHA_Companion_Final.postman_collection.json
-│   ├── BACKEND_RUN_GUIDE.md
-│   ├── PRESENTATION_DEMO.md
-│   ├── PRESENTATION_FLOW.md
-│   ├── README.md
-│   └── final_backend_verification.py
+│   └── pharmacy-service/
 │
 ├── frontend/
 │   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── contexts/
-│   │   ├── data/
-│   │   ├── layouts/
-│   │   ├── pages/
-│   │   │   ├── Admin/
-│   │   │   ├── ASHA/
-│   │   │   ├── Pharmacist/
-│   │   │   └── Supervisor/
-│   │   ├── routes/
-│   │   └── utils/
-│   │
-│   ├── package.json
-│   ├── vite.config.ts
-│   └── tsconfig.json
-🔌 Service Ports
+│   └── src/
+│       ├── components/
+│       ├── contexts/
+│       ├── data/
+│       ├── layouts/
+│       ├── pages/
+│       │   ├── Admin/
+│       │   ├── ASHA/
+│       │   ├── Pharmacist/
+│       │   └── Supervisor/
+│       ├── routes/
+│       └── utils/
+│
+├── .gitignore
+├── ASHA_Companion.code-workspace
+└── README.md
+🔌 Main Service Ports
 Component	Port
 Frontend	3002
 API Gateway	8081
 Auth Service	8082
 Eureka Discovery Server	8761
 Oracle Database	1521
-🚀 Getting Started
-Prerequisites
-
-Install the following:
-
-Java 17
-Node.js
-npm
-Maven
-Oracle Database 11g XE
-Git
-VS Code
-1. Clone the Repository
-git clone https://github.com/visha-l127/ASHA-Companion.git
-cd ASHA-Companion
-2. Configure Oracle Database
-
-Make sure Oracle Database is running.
-
-Configure the database username and password according to your local environment.
-
-Do not commit real database credentials to GitHub.
-
-3. Start Eureka Discovery Server
-cd backend/discovery-server
-.\mvnw.cmd spring-boot:run
-
-Eureka Dashboard:
-
-http://localhost:8761
-4. Start Backend Services
-
-Start the required Spring Boot services from their respective directories.
-
-Example:
-
-cd backend/auth-service
-.\mvnw.cmd spring-boot:run
-
-Then start:
-
-admin-service
-ai-service
-clinical-service
-pharmacy-service
-api-gateway
-5. Start the Frontend
-
-Open another terminal:
-
-cd frontend
-npm install
-npm run dev
-
-The frontend runs on:
-
-http://localhost:3002
-📖 API Documentation
-
-The backend provides Swagger/OpenAPI documentation.
-
-After the backend is running, Swagger UI can be accessed through the configured API Gateway.
-
-http://localhost:8081/swagger-ui.html
-
-Protected endpoints require a valid JWT obtained through the authentication flow.
-
 🧪 API Testing
 
-A Postman collection is included in the repository:
+The project includes a Postman collection for testing the backend APIs:
 
 backend/ASHA_Companion_Final.postman_collection.json
 
-Import the collection into Postman to test the backend APIs.
+The backend also provides API documentation through Swagger/OpenAPI.
 
-🔄 Typical Application Workflow
+🔄 Application Workflow
 ASHA Worker
 Login
   ↓
@@ -523,13 +329,13 @@ Households
   ↓
 Patients
   ↓
-Health Visits
+Healthcare Visits
   ↓
 Maternal / Immunization / Nutrition
   ↓
-Offline Queue
+Offline Data
   ↓
-Synchronize
+Synchronization
 PHC Supervisor
 Login
   ↓
@@ -537,7 +343,7 @@ Dashboard
   ↓
 Patient Monitoring
   ↓
-Alerts / Analytics
+Alerts & Analytics
   ↓
 Priority Visits
   ↓
@@ -557,7 +363,7 @@ Stock Transactions
   ↓
 Alerts
   ↓
-Forecast
+Forecasting
   ↓
 Reports
 Administrator
@@ -569,67 +375,41 @@ User Management
   ↓
 PHC Management
   ↓
-Role & Permissions
+Roles & Permissions
   ↓
 Reports
   ↓
 Audit Logs
-  ↓
-System Settings
-🔒 Security & Configuration Notes
+🔒 Security Notes
 
-This application handles healthcare-related information.
+As the application handles healthcare-related information:
 
-For development and deployment:
+Sensitive credentials should not be committed to the repository.
+Database passwords and API keys should be stored securely.
+Production deployments should use HTTPS.
+Patient information should not be exposed in logs or public screenshots.
+Development credentials should not be used in production.
+📌 Project Status
 
-Do not commit passwords or API keys.
-Do not commit production database credentials.
-Store secrets in environment variables or secure configuration.
-Use HTTPS in production.
-Apply appropriate access controls for healthcare data.
-Do not use development credentials in production.
-Do not expose sensitive patient information in logs or screenshots.
-📌 Current Project Status
+ASHA Companion currently includes:
 
-The repository currently contains:
-
-React frontend
-Role-specific dashboards
-ASHA healthcare workflows
-Supervisor workflows
+Role-based healthcare dashboards
+ASHA worker workflows
+PHC Supervisor workflows
 Pharmacist workflows
 Administrator workflows
-Spring Boot backend services
+Spring Boot microservices
 API Gateway
 Eureka service discovery
-JWT-based authentication
+JWT authentication
 Role-based authorization
 Oracle database integration
-Healthcare records
-Pharmacy inventory
-Offline synchronization workflow
+Patient and healthcare records
+Pharmacy inventory management
+Offline synchronization
 AI/analytics functionality
 Swagger/OpenAPI documentation
 Postman API collection
-Backend verification tooling
-🚧 Future Improvements
-
-Potential areas for further development include:
-
-Improved offline conflict resolution
-Enhanced synchronization reliability
-Advanced AI model validation
-Multilingual support
-Push notifications
-Mobile application support
-CI/CD automation
-Cloud deployment
-Additional healthcare-system integrations
-Enhanced monitoring and observability
-👥 Contributors
-
-Developed collaboratively as a healthcare technology project.
-
 📄 License
 
-This project is currently developed for educational, research, and demonstration purposes.
+This project is developed for educational, research, and demonstration purposes.
