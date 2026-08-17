@@ -1,0 +1,320 @@
+{
+  "info": {
+    "name": "ASHA Companion Final Backend API Collection",
+    "description": "Complete production-ready Postman collection for ASHA Companion microservices backend covering Phases 1 through 12.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "supervisorToken",
+      "value": ""
+    },
+    {
+      "key": "ashaToken",
+      "value": ""
+    },
+    {
+      "key": "pharmacistToken",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Authentication",
+      "item": [
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"]}
+          }
+        },
+        {
+          "name": "Register ASHA Worker",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Demo ASHA Worker\",\n  \"username\": \"demo_asha\",\n  \"password\": \"SecurePassword123\",\n  \"phcId\": \"PHC001\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 PHC Management",
+      "item": [
+        {
+          "name": "Create PHC (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Central Health Center\",\n  \"code\": \"PHC001\",\n  \"district\": \"Central\",\n  \"block\": \"Block A\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/phcs", "host": ["{{baseUrl}}"], "path": ["phcs"]}
+          }
+        },
+        {
+          "name": "Get All PHCs",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+            "url": {"raw": "{{baseUrl}}/phcs", "host": ["{{baseUrl}}"], "path": ["phcs"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 User Management",
+      "item": [
+        {
+          "name": "Create Supervisor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Demo Supervisor\",\n  \"username\": \"demo_sup\",\n  \"password\": \"SecurePassword123\",\n  \"role\": \"PHC_SUPERVISOR\",\n  \"phcId\": \"PHC001\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Patient Management",
+      "item": [
+        {
+          "name": "Register Patient (ASHA)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{ashaToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sita Sharma\",\n  \"dateOfBirth\": \"1996-04-12\",\n  \"gender\": \"Female\",\n  \"phone\": \"9876543210\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/patients", "host": ["{{baseUrl}}"], "path": ["patients"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Maternal Health",
+      "item": [
+        {
+          "name": "Register Pregnancy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{ashaToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": 1,\n  \"lastMenstrualPeriod\": \"2026-05-01\",\n  \"gravida\": 2,\n  \"para\": 1\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/pregnancies", "host": ["{{baseUrl}}"], "path": ["pregnancies"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Immunization",
+      "item": [
+        {
+          "name": "Record Immunization",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{ashaToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": 1,\n  \"vaccineId\": 1,\n  \"doseNumber\": 1,\n  \"administeredDate\": \"2026-08-12\",\n  \"administered\": true\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/immunizations", "host": ["{{baseUrl}}"], "path": ["immunizations"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Nutrition",
+      "item": [
+        {
+          "name": "Record Nutrition Growth",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{ashaToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": 1,\n  \"measurementDate\": \"2026-08-12\",\n  \"weightKg\": 7.5,\n  \"heightCm\": 70.0,\n  \"muacCm\": 10.5,\n  \"ageMonths": 14\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/nutrition-records", "host": ["{{baseUrl}}"], "path": ["nutrition-records"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Medicine Inventory",
+      "item": [
+        {
+          "name": "Dispense Medicine",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{pharmacistToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batchId\": 1,\n  \"quantity\": 20,\n  \"patientId\": 1,\n  \"reason\": \"Treatment prescription\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/medicine-transactions/dispense", "host": ["{{baseUrl}}"], "path": ["medicine-transactions", "dispense"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Dashboard",
+      "item": [
+        {
+          "name": "Supervisor Overview",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{supervisorToken}}"}],
+            "url": {"raw": "{{baseUrl}}/dashboard/overview", "host": ["{{baseUrl}}"], "path": ["dashboard", "overview"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Alerts",
+      "item": [
+        {
+          "name": "Generate System Alerts",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+            "url": {"raw": "{{baseUrl}}/health-alerts/generate", "host": ["{{baseUrl}}"], "path": ["health-alerts", "generate"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 Health Risk Intelligence",
+      "item": [
+        {
+          "name": "Evaluate Patient Risk",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{ashaToken}}"}],
+            "url": {"raw": "{{baseUrl}}/health-risks/evaluate/1", "host": ["{{baseUrl}}"], "path": ["health-risks", "evaluate", "1"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 Medicine Demand Forecast",
+      "item": [
+        {
+          "name": "Generate Demand Forecast",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{pharmacistToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"medicineId\": 1,\n  \"forecastDays\": 30\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/medicine-forecasts/generate", "host": ["{{baseUrl}}"], "path": ["medicine-forecasts", "generate"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "13 Offline Sync",
+      "item": [
+        {
+          "name": "Submit Sync Operation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{ashaToken}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationId\": \"op_demo_001\",\n  \"entityType\": \"PATIENT\",\n  \"entityId\": \"NEW_REG\",\n  \"operationType\": \"CREATE\",\n  \"payload\": {\"name\": \"Sync Patient\", \"dateOfBirth\": \"2000-01-01\", \"gender\": \"Female\"},\n  \"clientTimestamp\": \"2026-08-12T13:00:00\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/sync", "host": ["{{baseUrl}}"], "path": ["sync"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "14 Audit Logs",
+      "item": [
+        {
+          "name": "Get Audit Logs (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+            "url": {"raw": "{{baseUrl}}/audit-logs", "host": ["{{baseUrl}}"], "path": ["audit-logs"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "15 Security Tests",
+      "item": [
+        {
+          "name": "Unauthenticated Health Check",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"]}
+          }
+        },
+        {
+          "name": "ASHA Cross-Patient Access (403)",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{ashaToken}}"}],
+            "url": {"raw": "{{baseUrl}}/patients/9999", "host": ["{{baseUrl}}"], "path": ["patients", "9999"]}
+          }
+        }
+      ]
+    }
+  ]
+}

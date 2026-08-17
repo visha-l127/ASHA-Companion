@@ -1,0 +1,15 @@
+{
+  "folders": [
+    {
+      "name": "ASHA Companion Backend",
+      "path": "backend"
+    },
+    {
+      "name": "ASHA Companion Frontend",
+      "path": "frontend"
+    }
+  ],
+  "settings": {
+    "java.configuration.updateBuildConfiguration": "interactive"
+  }
+}

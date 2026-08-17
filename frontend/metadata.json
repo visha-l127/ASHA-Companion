@@ -1,0 +1,6 @@
+{
+  "name": "ASHA Worker EHR Companion",
+  "description": "A high-performance, mobile-first EHR companion designed for ASHA workers to manage community health records in low-internet environments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
