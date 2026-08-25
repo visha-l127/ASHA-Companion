@@ -69,6 +69,22 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(AdministeredImmunizationDeletionException.class)
+    public ResponseEntity<Map<String, Object>> handleAdministeredImmunizationDeletion(AdministeredImmunizationDeletionException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("status", HttpStatus.CONFLICT.value());
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(AdministeredImmunizationModificationException.class)
+    public ResponseEntity<Map<String, Object>> handleAdministeredImmunizationModification(AdministeredImmunizationModificationException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("status", HttpStatus.CONFLICT.value());
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(InactiveVaccineException.class)
     public ResponseEntity<Map<String, Object>> handleInactiveVaccine(InactiveVaccineException ex) {
         Map<String, Object> body = new HashMap<>();

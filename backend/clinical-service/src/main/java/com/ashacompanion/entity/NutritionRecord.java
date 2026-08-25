@@ -61,6 +61,9 @@ public class NutritionRecord {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false, columnDefinition = "NUMBER(10,0) DEFAULT 1")
+    private Integer active = 1;
+
     public NutritionRecord() {
     }
 
@@ -193,5 +196,21 @@ public class NutritionRecord {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public boolean isActive() {
+        return active != null && active == 1;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active ? 1 : 0;
+    }
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
     }
 }

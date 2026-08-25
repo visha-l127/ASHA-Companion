@@ -7,6 +7,8 @@ import com.ashacompanion.entity.ImmunizationRecord;
 import com.ashacompanion.entity.Patient;
 import com.ashacompanion.entity.Vaccine;
 import com.ashacompanion.entity.User;
+import com.ashacompanion.exception.AdministeredImmunizationDeletionException;
+import com.ashacompanion.exception.AdministeredImmunizationModificationException;
 import com.ashacompanion.exception.DuplicateImmunizationException;
 import com.ashacompanion.exception.InactiveVaccineException;
 import com.ashacompanion.exception.ResourceNotFoundException;
@@ -297,8 +299,13 @@ public class ImmunizationService {
             }
         }
 
+        // Protection against un-administering an already-administered record
+        if (record.isAdministered() && !Boolean.TRUE.equals(request.getAdministered())) {
+            throw new AdministeredImmunizationModificationException("Cannot un-administer an immunization record that has already been administered.");
+        }
+
         // Logical validation
-        if (request.getAdministered()) {
+        if (request.getAdministered() != null && request.getAdministered()) {
             if (request.getAdministeredDate() == null) {
                 throw new IllegalArgumentException("Administered date is required when marked as administered");
             }
@@ -311,7 +318,9 @@ public class ImmunizationService {
         record.setAdministeredDate(request.getAdministeredDate());
         record.setBatchNumber(request.getBatchNumber());
         record.setNotes(request.getNotes());
-        record.setAdministered(request.getAdministered());
+        if (request.getAdministered() != null) {
+            record.setAdministered(request.getAdministered());
+        }
         record.setNextDueDate(request.getNextDueDate());
 
         ImmunizationRecord savedRecord = immunizationRecordRepository.save(record);
@@ -340,6 +349,10 @@ public class ImmunizationService {
             if (currentUser.getPhcId() == null || !currentUser.getPhcId().equals(record.getPatient().getPhcId())) {
                 throw new AccessDeniedException("Access denied: Patient belongs to another PHC");
             }
+        }
+
+        if (record.isAdministered()) {
+            throw new AdministeredImmunizationDeletionException("Cannot delete an administered immunization record.");
         }
 
         immunizationRecordRepository.delete(record);

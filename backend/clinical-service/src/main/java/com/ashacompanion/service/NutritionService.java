@@ -88,6 +88,7 @@ public class NutritionService {
         record.setNutritionStatus(evaluation.getStatus());
         record.setRiskFlag(evaluation.isRiskFlag());
         record.setRiskFactors(evaluation.getRiskFactors());
+        record.setActive(true);
 
         NutritionRecord savedRecord = nutritionRecordRepository.save(record);
         return new NutritionRecordResponseDTO(savedRecord);
@@ -137,6 +138,7 @@ public class NutritionService {
         }
 
         return records.stream()
+                .filter(NutritionRecord::isActive)
                 .map(NutritionRecordResponseDTO::new)
                 .collect(Collectors.toList());
     }
@@ -162,6 +164,7 @@ public class NutritionService {
         }
 
         return nutritionRecordRepository.findByPatientIdOrderByMeasurementDateDesc(patientId).stream()
+                .filter(NutritionRecord::isActive)
                 .map(NutritionRecordResponseDTO::new)
                 .collect(Collectors.toList());
     }
@@ -186,7 +189,9 @@ public class NutritionService {
             throw new AccessDeniedException("Access denied: Insufficient privileges");
         }
 
-        NutritionRecord record = nutritionRecordRepository.findFirstByPatientIdOrderByMeasurementDateDesc(patientId)
+        NutritionRecord record = nutritionRecordRepository.findByPatientIdOrderByMeasurementDateDesc(patientId).stream()
+                .filter(NutritionRecord::isActive)
+                .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("No nutrition records found for patient ID: " + patientId));
 
         return new NutritionRecordResponseDTO(record);
@@ -212,6 +217,7 @@ public class NutritionService {
         }
 
         return records.stream()
+                .filter(NutritionRecord::isActive)
                 .map(NutritionRecordResponseDTO::new)
                 .collect(Collectors.toList());
     }
@@ -288,6 +294,7 @@ public class NutritionService {
             }
         }
 
-        nutritionRecordRepository.delete(record);
+        record.setActive(false);
+        nutritionRecordRepository.save(record);
     }
 }

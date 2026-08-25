@@ -136,6 +136,7 @@ public class PregnancyService {
         }
 
         return pregnancies.stream()
+                .filter(Pregnancy::isActive)
                 .map(PregnancyResponseDTO::new)
                 .collect(Collectors.toList());
     }
@@ -228,6 +229,7 @@ public class PregnancyService {
         }
 
         return pregnancies.stream()
+                .filter(Pregnancy::isActive)
                 .map(PregnancyResponseDTO::new)
                 .collect(Collectors.toList());
     }
@@ -251,7 +253,6 @@ public class PregnancyService {
         }
 
         pregnancy.setActive(false);
-        pregnancy.setPregnancyStatus(PregnancyStatus.COMPLETED);
         pregnancyRepository.save(pregnancy);
     }
 }
