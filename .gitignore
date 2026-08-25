@@ -7,7 +7,7 @@ frontend/dist/
 # ==========================
 # Backend (Spring Boot)
 # ==========================
-backend/target/
+backend/**/target/
 *.class
 
 # ==========================
