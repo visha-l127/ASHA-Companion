@@ -324,6 +324,8 @@ npm run dev
 ```
 *Port: `3002` (Proxies Gateway `/api` calls to `http://localhost:8081`)*
 
+**Default seed credentials (local testing only):** `admin` / `Admin@123`
+
 ---
 
 ## 🧪 Verification & Test Suite
@@ -364,9 +366,9 @@ Follow this sequence to demonstrate end-to-end integration and stability:
 ### **Step 4: Demonstrate Security (RBAC)**
 1. Log in as ASHA worker `anita.devi` (Password: `Asha@123`).
 2. Open DevTools console and attempt to trigger an admin user fetch:
-   ```javascript
+```javascript
    fetch('/api/users', { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
-   ```
+```
 3. Show console logs: API Gateway / backend returns status **`403 Forbidden`** (Verifies server-side RBAC validation).
 
 ### **Step 5: Demonstrate ASHA Offline Sync**
