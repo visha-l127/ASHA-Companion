@@ -1,3 +1,5 @@
+import { handleMockRequest } from '../mocks/mockApiClient';
+
 export const API_BASE_URL = '';
 
 // Helper to get stored JWT token
@@ -58,6 +60,10 @@ export async function apiRequest<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
+  if (import.meta.env.VITE_DEMO_MODE === 'true') {
+    return handleMockRequest<T>(endpoint, options);
+  }
+
   const method = (options.method || 'GET').toUpperCase();
 
   // Deduplicate identical in-flight GET requests

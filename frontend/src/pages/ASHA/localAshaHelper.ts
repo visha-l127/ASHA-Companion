@@ -81,6 +81,7 @@ export interface ImmunizationRecord {
   dateGiven: string;
   nextDueDate: string;
   administeredBy: string;
+  administered?: boolean;
   status: 'synced' | 'pending';
   lastUpdated: string;
   verificationStatus?: 'pending' | 'verified' | 'correction_requested';
@@ -501,6 +502,7 @@ export const getImmunizationRecords = async (prefetchedPts?: any[]): Promise<Imm
         dateGiven: im.administeredDate ? String(im.administeredDate) : '',
         nextDueDate: im.nextDueDate ? String(im.nextDueDate) : '',
         administeredBy: im.notes || 'ANM Madukkarai PHC',
+        administered: im.administered === true || (im.administered as any) === 1,
         status: 'synced',
         lastUpdated: im.updatedAt || new Date().toISOString()
       });
@@ -520,7 +522,7 @@ export const addImmunizationRecord = async (imm: Omit<ImmunizationRecord, 'id' |
     vaccineId: vacId,
     doseNumber: 1,
     administeredDate: imm.dateGiven,
-    administered: true,
+    administered: imm.administered !== undefined ? imm.administered : true,
     notes: imm.administeredBy
   });
 
@@ -543,7 +545,7 @@ export const updateImmunizationRecord = async (id: string, imm: Partial<Immuniza
     vaccineId: vacId,
     doseNumber: 1,
     administeredDate: imm.dateGiven,
-    administered: true,
+    administered: imm.administered !== undefined ? imm.administered : true,
     notes: imm.administeredBy
   });
 };

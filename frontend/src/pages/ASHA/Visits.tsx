@@ -67,9 +67,10 @@ export default function VisitsPage() {
         setLoadingAI(true);
         try {
           const aiPrioritized = await aiApi.getPrioritizedVisits();
-          setPrioritizedVisits(aiPrioritized);
+          setPrioritizedVisits(Array.isArray(aiPrioritized) ? aiPrioritized : []);
         } catch (err) {
           console.error('Error fetching AI prioritized visits:', err);
+          setPrioritizedVisits([]);
         } finally {
           setLoadingAI(false);
         }
@@ -273,7 +274,7 @@ export default function VisitsPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 text-slate-700">
-                    {prioritizedVisits.map((pv, idx) => {
+                    {Array.isArray(prioritizedVisits) && prioritizedVisits.map((pv, idx) => {
                       let badgeColor = 'bg-slate-100 text-slate-800';
                       if (pv.priorityLevel === 'CRITICAL') badgeColor = 'bg-rose-100 text-rose-800 font-extrabold border border-rose-200';
                       else if (pv.priorityLevel === 'HIGH') badgeColor = 'bg-orange-100 text-orange-800 font-bold border border-orange-200';
@@ -326,7 +327,7 @@ export default function VisitsPage() {
                       );
                     })}
 
-                    {prioritizedVisits.length === 0 && (
+                    {(!Array.isArray(prioritizedVisits) || prioritizedVisits.length === 0) && (
                       <tr>
                         <td colSpan={5} className="py-12 text-center text-slate-400 font-bold">
                           No prioritized visits calculated for this sector.

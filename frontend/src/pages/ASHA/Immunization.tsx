@@ -102,6 +102,7 @@ export default function ImmunizationPage() {
   const [dateGiven, setDateGiven] = useState('');
   const [nextDueDate, setNextDueDate] = useState('');
   const [administeredBy, setAdministeredBy] = useState('ANM Madukkarai PHC');
+  const [isAdministered, setIsAdministered] = useState(true);
 
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
@@ -231,6 +232,7 @@ export default function ImmunizationPage() {
     setNextDueDate(nextDate.toISOString().substring(0, 10));
 
     setAdministeredBy('ANM Madukkarai PHC');
+    setIsAdministered(true);
     setFormError(null);
     setIsFormOpen(true);
   };
@@ -244,6 +246,7 @@ export default function ImmunizationPage() {
     setDateGiven(r.dateGiven);
     setNextDueDate(r.nextDueDate);
     setAdministeredBy(r.administeredBy);
+    setIsAdministered(r.administered !== false);
     setFormError(null);
     setIsFormOpen(true);
   };
@@ -308,7 +311,8 @@ export default function ImmunizationPage() {
           vaccineName,
           dateGiven,
           nextDueDate,
-          administeredBy
+          administeredBy,
+          administered: isAdministered
         });
         setSuccessMsg(`Updated ${vaccineName} dose for ${patName}`);
       } else {
@@ -327,9 +331,9 @@ export default function ImmunizationPage() {
       setIsFormOpen(false);
       await loadData();
       setTimeout(() => setSuccessMsg(null), 3000);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      setFormError('Failed to save immunization record.');
+      setFormError(err.message || 'Failed to save immunization record.');
     }
   };
 
@@ -340,9 +344,10 @@ export default function ImmunizationPage() {
         await loadData();
         setSuccessMsg('Vaccination record removed.');
         setTimeout(() => setSuccessMsg(null), 3000);
-      } catch (err) {
+      } catch (err: any) {
         console.error(err);
-        setSuccessMsg('Failed to delete vaccination record.');
+        setFormError(err.message || 'Cannot delete an administered immunization record.');
+        setTimeout(() => setFormError(null), 5000);
       }
     }
   };
@@ -397,6 +402,14 @@ export default function ImmunizationPage() {
         <div className="p-4 bg-emerald-50 border border-emerald-100 text-emerald-800 rounded-xl text-xs font-bold flex items-center gap-2.5 animate-in fade-in duration-200">
           <CheckCircle className="w-4.5 h-4.5 text-emerald-600 shrink-0" />
           <span>{successMsg}</span>
+        </div>
+      )}
+
+      {/* ERROR BANNER */}
+      {formError && !isFormOpen && (
+        <div id="immunization-error-banner" className="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs font-bold flex items-center gap-2.5 animate-in fade-in duration-200">
+          <AlertTriangle className="w-4.5 h-4.5 text-rose-600 shrink-0" />
+          <span>{formError}</span>
         </div>
       )}
 
@@ -1257,6 +1270,19 @@ export default function ImmunizationPage() {
                           className="w-full px-3 py-2 border border-slate-200 rounded-xl font-semibold text-xs focus:outline-none focus:ring-2 focus:ring-sky-500/10 focus:border-sky-600 bg-white"
                           required
                         />
+                      </div>
+
+                      <div>
+                        <label className="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer pt-1">
+                          <input 
+                            type="checkbox"
+                            id="checkbox-administered"
+                            checked={isAdministered}
+                            onChange={(e) => setIsAdministered(e.target.checked)}
+                            className="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500 cursor-pointer"
+                          />
+                          <span>Dose Administered (Uncheck to mark un-administered)</span>
+                        </label>
                       </div>
 
                       <div className="flex justify-between pt-4 border-t border-slate-100">

@@ -57,10 +57,18 @@ import PharmacistReports from './pages/Pharmacist/Reports';
 import PharmacistProfile from './pages/Pharmacist/Profile';
 
 export default function App() {
+  const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+
   return (
     <AuthProvider>
       <RoleProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
+          {isDemoMode && (
+            <div className="bg-amber-500 text-amber-950 px-4 py-1.5 text-center text-xs md:text-sm font-bold tracking-wide shadow-md z-50 sticky top-0 flex items-center justify-center gap-2 border-b border-amber-600/30 select-none">
+              <span className="w-2 h-2 rounded-full bg-amber-950 animate-pulse inline-block" />
+              <span>Demo Mode — Sample Data, No Live Backend</span>
+            </div>
+          )}
           <Routes>
             {/* Public Entrypoints */}
             <Route path="/" element={<SplashScreen />} />

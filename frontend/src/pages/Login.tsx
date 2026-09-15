@@ -45,9 +45,12 @@ export default function Login() {
 
   const from = location.state?.from?.pathname;
 
+  const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -57,6 +60,12 @@ export default function Login() {
       rememberMe: false,
     },
   });
+
+  const handleQuickDemoLogin = (identifier: string, pass: string) => {
+    setValue('identifier', identifier, { shouldValidate: true });
+    setValue('password', pass, { shouldValidate: true });
+    onSubmit({ identifier, password: pass, rememberMe: false });
+  };
 
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
@@ -217,6 +226,53 @@ export default function Login() {
           {/* Clean Auth Card */}
           <Card className="border-slate-200/80 shadow-sm bg-white rounded-2xl overflow-hidden">
             <CardContent className="p-6 sm:p-8 space-y-5">
+              {isDemoMode && (
+                <div className="bg-amber-50/60 border border-amber-200/80 rounded-xl p-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-extrabold text-amber-900 uppercase tracking-wider">
+                      Quick Demo Role Login
+                    </span>
+                    <span className="text-[10px] font-bold text-amber-800 bg-amber-200/60 px-1.5 py-0.5 rounded border border-amber-300">
+                      Demo Mode Active
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => handleQuickDemoLogin('admin', 'Admin@123')}
+                      className="px-2.5 py-1.5 bg-white hover:bg-amber-100/50 text-slate-800 text-xs font-bold rounded-lg border border-amber-200 shadow-xs transition-colors text-left flex items-center justify-between cursor-pointer"
+                    >
+                      <span>Admin</span>
+                      <span className="text-[10px] text-slate-500 font-mono">admin</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickDemoLogin('vedava', 'Vedava@123')}
+                      className="px-2.5 py-1.5 bg-white hover:bg-amber-100/50 text-slate-800 text-xs font-bold rounded-lg border border-amber-200 shadow-xs transition-colors text-left flex items-center justify-between cursor-pointer"
+                    >
+                      <span>Supervisor</span>
+                      <span className="text-[10px] text-slate-500 font-mono">vedava</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickDemoLogin('anita.devi', 'Asha@123')}
+                      className="px-2.5 py-1.5 bg-white hover:bg-amber-100/50 text-slate-800 text-xs font-bold rounded-lg border border-amber-200 shadow-xs transition-colors text-left flex items-center justify-between cursor-pointer"
+                    >
+                      <span>ASHA</span>
+                      <span className="text-[10px] text-slate-500 font-mono">anita.devi</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickDemoLogin('priya.sharma', 'Pharm@123')}
+                      className="px-2.5 py-1.5 bg-white hover:bg-amber-100/50 text-slate-800 text-xs font-bold rounded-lg border border-amber-200 shadow-xs transition-colors text-left flex items-center justify-between cursor-pointer"
+                    >
+                      <span>Pharmacist</span>
+                      <span className="text-[10px] text-slate-500 font-mono">priya.sharma</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 
                 {/* Identifier Input */}

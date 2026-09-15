@@ -308,7 +308,7 @@ export default function PriorityVisitsPage() {
           else if (v.urgency === 'Medium') urgencyColor = 'bg-blue-50 text-blue-700 border-blue-100';
 
           return (
-            <Card key={`pv-card-${v.id || idx}-${idx}`} className={`border transition-all duration-200 ${isPending ? 'border-slate-200 hover:shadow-md' : 'border-slate-100 bg-slate-50/40 opacity-80'}`}>
+            <Card key={`pv-card-${v.id || idx}-${idx}`} data-testid="priority-visit-card" className={`border transition-all duration-200 ${isPending ? 'border-slate-200 hover:shadow-md' : 'border-slate-100 bg-slate-50/40 opacity-80'}`}>
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start gap-2">
                   <div>

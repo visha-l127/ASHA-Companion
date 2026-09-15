@@ -7,7 +7,7 @@ export default defineConfig(() => {
   const isProduction = process.env.NODE_ENV === 'production';
 
   return {
-    base: isProduction ? '/ASHA-Companion/' : '/',
+    base: process.env.VITE_DEMO_MODE === 'true' ? '/ASHA-Companion/' : '/',
 
     plugins: [react(), tailwindcss()],
 
